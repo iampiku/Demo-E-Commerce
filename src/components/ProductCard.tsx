@@ -3,6 +3,7 @@ import {
 	Chip,
 	Card,
 	CardBody,
+	CardFooter,
 	Image,
 	Button,
 	Tooltip,
@@ -11,6 +12,9 @@ import {
 	DropdownMenu,
 	DropdownTrigger,
 } from "@nextui-org/react";
+import { MdAddShoppingCart } from "react-icons/md";
+import { Link } from "react-router-dom";
+
 import { Key, useState } from "react";
 
 interface ProductCardProps {
@@ -29,39 +33,41 @@ export default function ProductCard({
 
 	return (
 		<Card isBlurred shadow="md" className="bg-slate-100 ">
-			<CardBody className="mix-blend-multiply mx-auto">
-				<div className="mx-auto">
-					<Image
-						shadow="none"
-						radius="lg"
-						alt={productDetails.title}
-						src={productDetails.image}
-						className="object-cover p-3 w-full h-[280px]"
-					></Image>
-				</div>
+			<div className="mx-auto mix-blend-multiply">
+				<Image
+					shadow="none"
+					radius="lg"
+					alt={productDetails.title}
+					src={productDetails.image}
+					className="object-cover p-3 w-full h-[280px]"
+				></Image>
+			</div>
+			<CardBody className=" mx-auto">
 				<Tooltip content={productDetails.title} delay={2000}>
-					<strong className="text-lg overflow-hidden whitespace-nowrap overflow-ellipsis">
-						{productDetails.title}
-					</strong>
+					<Link
+						to={`/${productDetails.id}`}
+						className="text-lg overflow-hidden whitespace-nowrap overflow-ellipsis "
+					>
+						<strong>{productDetails.title}</strong>
+					</Link>
 				</Tooltip>
 				<p className=" font-bold text-2xl text-primary-300 py-2">
 					${productDetails.price}
 				</p>
-
-				<p className="pb-3 font-semibold w-full">
-					Rating:{" "}
-					<span className="font-normal">{productDetails.rating.rate}/5</span>
+				<div className="flex">
+					<p className="pb-3 font-semibold w-full">
+						Rating:{" "}
+						<span className="font-normal">{productDetails.rating.rate}/5</span>
+					</p>
 					<Chip
 						variant="shadow"
 						color="secondary"
 						size="sm"
 						className="ml-auto"
 					>
-						<span className="text-sm">
-							{productDetails.category.toUpperCase()}
-						</span>
+						{productDetails.category.toUpperCase()}
 					</Chip>
-				</p>
+				</div>
 
 				<div className="pb-4">
 					<p className="font-bold">Description</p>
@@ -76,7 +82,7 @@ export default function ProductCard({
 					</Tooltip>
 				</div>
 
-				<div className="flex gap-2 flex-col sm:flex-row">
+				<CardFooter className="flex gap-1 flex-col sm:flex-row">
 					<Dropdown className="flex-grow">
 						<DropdownTrigger>
 							<Button variant="ghost">{productCount}</Button>
@@ -96,14 +102,15 @@ export default function ProductCard({
 					</Dropdown>
 					<Button
 						color="primary"
-						variant="shadow"
+						variant="solid"
 						className="flex-grow"
 						onClick={() => console.log(productDetails)}
 						disabled={productCount === 0}
+						startContent={<MdAddShoppingCart className="text-xl" />}
 					>
 						Add to Cart
 					</Button>
-				</div>
+				</CardFooter>
 			</CardBody>
 		</Card>
 	);
