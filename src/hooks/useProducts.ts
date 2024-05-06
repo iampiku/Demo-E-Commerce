@@ -4,7 +4,7 @@ import axios, { AxiosError, CanceledError } from "axios";
 
 import { useState, useEffect, useMemo } from "react";
 
-export default function useProducts(id = null) {
+export default function useProducts(id: null | number) {
 	const [isLoading, setIsLoading] = useState(false);
 	const [products, setProducts] = useState<
 		ProductDetails[] | ProductDetails | null
@@ -29,7 +29,8 @@ export default function useProducts(id = null) {
 
 				setProducts(null);
 				setErrorMessage(error.message);
-			});
+			})
+			.finally(() => setIsLoading(false));
 
 		return () => controller.abort();
 	}, [API_URL]);
