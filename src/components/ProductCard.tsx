@@ -3,7 +3,6 @@ import {
 	Chip,
 	Card,
 	CardBody,
-	CardFooter,
 	Image,
 	Button,
 	Tooltip,
@@ -12,7 +11,7 @@ import {
 	DropdownMenu,
 	DropdownTrigger,
 } from "@nextui-org/react";
-import { MdAddShoppingCart } from "react-icons/md";
+import { LuShoppingCart } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 import { Key, useState } from "react";
@@ -32,7 +31,7 @@ export default function ProductCard({
 	}
 
 	return (
-		<Card isBlurred shadow="md" className="bg-slate-100 ">
+		<Card isBlurred shadow="md">
 			<div className="mx-auto mix-blend-multiply">
 				<Image
 					shadow="none"
@@ -82,7 +81,7 @@ export default function ProductCard({
 					</Tooltip>
 				</div>
 
-				<CardFooter className="flex gap-1 flex-col sm:flex-row">
+				<div className="flex gap-1 flex-col sm:flex-row w-full">
 					<Dropdown className="flex-grow">
 						<DropdownTrigger>
 							<Button variant="ghost">{productCount}</Button>
@@ -105,12 +104,11 @@ export default function ProductCard({
 						variant="solid"
 						className="flex-grow"
 						onClick={() => console.log(productDetails)}
-						disabled={productCount === 0}
-						startContent={<MdAddShoppingCart className="text-xl" />}
+						startContent={<LuShoppingCart className="text-xl" />}
 					>
 						Add to Cart
 					</Button>
-				</CardFooter>
+				</div>
 			</CardBody>
 		</Card>
 	);
