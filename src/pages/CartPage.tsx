@@ -1,3 +1,10 @@
+import NavBar from "@/components/Navbar";
+
 export default function CartPage() {
-	return <p>hi from cart page</p>;
+	return (
+		<>
+			<NavBar />
+			<p>hi from cart page</p>
+		</>
+	);
 }

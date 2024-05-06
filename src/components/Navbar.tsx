@@ -1,13 +1,12 @@
 import {
 	Badge,
-	Button,
 	Navbar,
+	Button,
+	NavbarItem,
 	NavbarBrand,
 	NavbarContent,
-	NavbarItem,
 } from "@nextui-org/react";
 import { LuShoppingBasket } from "react-icons/lu";
-
 import { Link } from "react-router-dom";
 
 export default function NavBar() {
@@ -16,13 +15,18 @@ export default function NavBar() {
 			<NavbarBrand className="font-bold text-2xl">🏪 FAKE STORE</NavbarBrand>
 			<NavbarContent justify="end">
 				<NavbarItem>
-					<Link to="/cart">
-						<Badge content="0" color="primary" size="lg">
-							<Button isIconOnly color="secondary" variant="shadow" size="lg">
+					<Badge content="0" color="primary" size="lg">
+						<Link to="/cart">
+							<Button
+								isIconOnly
+								color="secondary"
+								variant="shadow"
+								className="text-xl"
+							>
 								<LuShoppingBasket />
 							</Button>
-						</Badge>
-					</Link>
+						</Link>
+					</Badge>
 				</NavbarItem>
 			</NavbarContent>
 		</Navbar>
