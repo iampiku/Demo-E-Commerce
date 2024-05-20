@@ -4,10 +4,20 @@ import axios, { AxiosError, CanceledError } from "axios";
 
 import { useState, useEffect } from "react";
 
+interface ProductState {
+	details: ProductDetails | null;
+	products: ProductDetails[];
+}
+
+const initialProductState: ProductState = {
+	details: null,
+	products: [],
+} as const;
+
 export default function useProducts(id: null | number) {
-	const [products, setProducts] = useState<
-		ProductDetails[] | ProductDetails | null
-	>(null);
+	const [productState, setProductState] = useState<ProductState>({
+		...initialProductState,
+	});
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 
@@ -21,20 +31,28 @@ export default function useProducts(id: null | number) {
 
 		axios
 			.get<ProductDetails[] | ProductDetails>(API_URL)
-			.then(({ data }) => setProducts(data))
+			.then(({ data }) =>
+				setProductState((oldProducts) => {
+					if (!id && Array.isArray(data))
+						return { products: data, details: null };
+					else if (id && !Array.isArray(data))
+						return { details: data, products: [] };
+					else return { ...oldProducts };
+				})
+			)
 			.catch((error: AxiosError) => {
 				if (error instanceof CanceledError) return;
 
-				setProducts(null);
+				setProductState({ details: null, products: [] });
 				setErrorMessage(error.message);
 			})
 			.finally(() => setIsLoading(false));
 
 		return () => controller.abort();
-	}, [API_URL]);
+	}, [API_URL, id]);
 
 	return {
-		products,
+		productState,
 		isLoading,
 		errorMessage,
 	};
