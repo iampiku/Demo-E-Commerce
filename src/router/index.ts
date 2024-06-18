@@ -10,7 +10,7 @@ const routes = createBrowserRouter([
 		Component: HomePage,
 	},
 	{
-		path: "/:productId",
+		path: "product/:productId",
 		Component: ProductDetailsPage,
 	},
 	{

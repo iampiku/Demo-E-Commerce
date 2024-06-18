@@ -18,9 +18,11 @@ import { Key, useState } from "react";
 
 interface ProductCardProps {
 	productDetails: ProductDetails;
+	onAddProduct: (product: ProductDetails, quantity: number) => void;
 }
 
 export default function ProductCard({
+	onAddProduct,
 	productDetails,
 }: Readonly<ProductCardProps>) {
 	const [productCount, setProductCount] = useState(1);
@@ -41,10 +43,10 @@ export default function ProductCard({
 					className="object-cover p-3 w-full h-[280px]"
 				></Image>
 			</div>
-			<CardBody className=" mx-auto">
+			<CardBody className="mx-auto">
 				<Tooltip content={productDetails.title} delay={2000}>
 					<Link
-						to={`/${productDetails.id}`}
+						to={`product/${productDetails.id}`}
 						className="text-lg overflow-hidden whitespace-nowrap overflow-ellipsis "
 					>
 						<strong>{productDetails.title}</strong>
@@ -75,9 +77,7 @@ export default function ProductCard({
 						className="max-w-[600px]"
 						content={productDetails.description}
 					>
-						<p className="text-sm max-h-[60px] overflow-hidden whitespace-normal overflow-ellipsis">
-							{productDetails.description}
-						</p>
+						<p className="text-sm truncate">{productDetails.description}</p>
 					</Tooltip>
 				</div>
 
@@ -95,7 +95,11 @@ export default function ProductCard({
 							selectedKeys={[productCount]}
 						>
 							{Array.from({ length: 4 }).map((_, index) => {
-								return <DropdownItem key={index}>{index + 1}</DropdownItem>;
+								return (
+									<DropdownItem key={index} textValue={index.toString()}>
+										{index + 1}
+									</DropdownItem>
+								);
 							})}
 						</DropdownMenu>
 					</Dropdown>
@@ -103,7 +107,7 @@ export default function ProductCard({
 						color="primary"
 						variant="solid"
 						className="flex-grow"
-						onClick={() => console.log(productDetails)}
+						onClick={() => onAddProduct(productDetails, productCount)}
 						startContent={<LuShoppingCart className="text-xl" />}
 					>
 						Add to Cart

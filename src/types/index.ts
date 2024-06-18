@@ -11,3 +11,7 @@ export type ProductDetails = {
 	image: string;
 	rating: Rating;
 };
+export type CartItem = ProductDetails & {
+	quantity: number;
+	totalPrice: number;
+};

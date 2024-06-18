@@ -8,8 +8,7 @@ function ProductDetailsPage() {
 	const { productId } = useParams();
 	const id = !productId ? null : parseInt(productId);
 
-	const { products, isLoading, errorMessage } = useProducts(id);
-	const productDetails = products && !Array.isArray(products) ? products : null;
+	const { productState, isLoading, errorMessage } = useProducts(id);
 
 	return (
 		<>
@@ -18,22 +17,22 @@ function ProductDetailsPage() {
 				<Card isBlurred className="p-6 h-full">
 					<CardBody>
 						{isLoading && <span>Loading...</span>}
-						{productDetails ? (
+						{productState.details ? (
 							<div className="flex flex-col md:flex-row mix-blend-multiply">
 								<Image
 									isZoomed
 									shadow="none"
 									isLoading={isLoading}
 									className="mx-auto"
-									src={productDetails.image}
+									src={productState.details.image}
 								></Image>
 
 								<div className="p-6 space-y-4">
 									<p className="text-5xl font-semibold">
-										{productDetails.title}
+										{productState.details.title}
 									</p>
-									<p>{productDetails.description}</p>
-									<p className="text-3xl">$ {productDetails.price}</p>
+									<p>{productState.details.description}</p>
+									<p className="text-3xl">$ {productState.details.price}</p>
 									<div className="flex gap-4">
 										<Button color="primary" variant="solid">
 											ADD TO CART

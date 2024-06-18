@@ -19,7 +19,10 @@ export default function useProducts(id: null | number) {
 		...initialProductState,
 	});
 	const [isLoading, setIsLoading] = useState(false);
-	const [errorMessage, setErrorMessage] = useState("");
+	const [errorMessage, setErrorMessage] = useState<{
+		message: string;
+		code: number;
+	} | null>(null);
 
 	const API_URL = id
 		? `https://fakestoreapi.com/products/${id}`
@@ -43,8 +46,11 @@ export default function useProducts(id: null | number) {
 			.catch((error: AxiosError) => {
 				if (error instanceof CanceledError) return;
 
-				setProductState({ details: null, products: [] });
-				setErrorMessage(error.message);
+				setProductState(initialProductState);
+				setErrorMessage({
+					message: error.message,
+					code: error.code ? parseInt(error.code) : 404,
+				});
 			})
 			.finally(() => setIsLoading(false));
 

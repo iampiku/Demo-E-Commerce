@@ -1,12 +1,12 @@
 import routes from "@/router";
 
 import { RouterProvider } from "react-router-dom";
-
+import { CartProvider } from "@/context/CartContext.tsx";
 function App() {
 	return (
-		<main>
+		<CartProvider>
 			<RouterProvider router={routes} />;
-		</main>
+		</CartProvider>
 	);
 }
 
