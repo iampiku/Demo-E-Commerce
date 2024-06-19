@@ -22,10 +22,11 @@ export default function NavBar() {
 		navigate("/cart");
 		event.preventDefault();
 	};
+
 	return (
 		<Navbar isBlurred isBordered>
 			<Link to="/">
-				<NavbarBrand className="font-bold text-2xl">🏪 FAKE STORE</NavbarBrand>
+				<NavbarBrand className="font-bold text-2xl">🏪 Fake Store</NavbarBrand>
 			</Link>
 			<NavbarContent justify="end">
 				<NavbarItem>

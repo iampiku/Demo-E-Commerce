@@ -15,6 +15,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 import { Key, useState } from "react";
+import { formattedAmount } from "@/utils";
 
 interface ProductCardProps {
 	productDetails: ProductDetails;
@@ -40,7 +41,7 @@ export default function ProductCard({
 					radius="lg"
 					alt={productDetails.title}
 					src={productDetails.image}
-					className="object-cover p-3 w-full h-[280px]"
+					className="object-cover p-3 h-[280px]"
 				></Image>
 			</div>
 			<CardBody className="mx-auto">
@@ -53,7 +54,7 @@ export default function ProductCard({
 					</Link>
 				</Tooltip>
 				<p className=" font-bold text-2xl text-primary-300 py-2">
-					${productDetails.price}
+					{formattedAmount(productDetails.price)}
 				</p>
 				<div className="flex">
 					<p className="pb-3 font-semibold w-full">

@@ -15,3 +15,10 @@ export type CartItem = ProductDetails & {
 	quantity: number;
 	totalPrice: number;
 };
+export type Notification = {
+	type: "error" | "success" | "warning";
+	message: {
+		title: string;
+		description: string;
+	};
+};

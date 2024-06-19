@@ -1,13 +1,9 @@
-import { Card, CardHeader, CardBody } from "@nextui-org/react";
+import { Notification } from "@/types";
+import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
+import { FaCircleInfo, FaCircleCheck } from "react-icons/fa6";
+import { IoIosWarning, IoIosClose } from "react-icons/io";
 
-interface NotificationToastProps {
-	showToast: boolean;
-	type: "error" | "success" | "warning";
-	message: {
-		title: string;
-		description: string;
-	};
-}
+type NotificationToastProps = Notification & { showToast: boolean };
 
 export function NotificationToast({
 	type,
@@ -15,10 +11,30 @@ export function NotificationToast({
 	showToast,
 }: Readonly<NotificationToastProps>) {
 	if (!showToast) return null;
+
+	const iconMap: { [key: string]: JSX.Element } = {
+		error: <IoIosWarning />,
+		success: <FaCircleCheck />,
+		info: <FaCircleInfo />,
+	};
+
 	return (
-		<Card>
-			<CardHeader></CardHeader>
-			<CardBody></CardBody>
+		<Card className="fixed top-0 right-0 mt-4 mr-4  max-w-[400px] z-50 bg-green-100/85 backdrop-blur-md">
+			<CardHeader className="text-2xl flex justify-between">
+				<div className="flex items-center gap-2 text-green-700">
+					<div>{iconMap[type]}</div>
+					<p>{message.title}</p>
+				</div>
+				<Button
+					size="sm"
+					isIconOnly
+					className="text-xl"
+					onClick={() => (showToast = false)}
+				>
+					<IoIosClose />
+				</Button>
+			</CardHeader>
+			<CardBody>{message.description}</CardBody>
 		</Card>
 	);
 }

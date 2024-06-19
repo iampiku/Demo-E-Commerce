@@ -18,3 +18,10 @@ export function sortItems<T>(params: {
 		}
 	});
 }
+
+export function formattedAmount(amount: number) {
+	return amount.toLocaleString("en-US", {
+		style: "currency",
+		currency: "USD",
+	});
+}

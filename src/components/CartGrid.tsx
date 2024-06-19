@@ -15,6 +15,7 @@ import {
 import { Key, useCallback } from "react";
 import QuantityCounter from "./QuantityCounter";
 import { LuShoppingCart } from "react-icons/lu";
+import { formattedAmount } from "@/utils";
 
 interface DescriptionProps {
 	description: string;
@@ -74,7 +75,9 @@ export default function CartGrid({
 				case "Category":
 					return <Chip>{product.category}</Chip>;
 				case "Price":
-					return <p className="font-semibold">$ {product.price}</p>;
+					return (
+						<p className="font-semibold">{formattedAmount(product.price)}</p>
+					);
 				case "Quantity":
 					return (
 						<QuantityCounter
@@ -83,7 +86,7 @@ export default function CartGrid({
 						/>
 					);
 				case "Total":
-					return <p>$ {product.totalPrice}</p>;
+					return <p>{formattedAmount(product.totalPrice)}</p>;
 				default:
 					return null;
 			}
@@ -123,7 +126,7 @@ export default function CartGrid({
 
 			<div className="w-full flex justify-end items-center gap-3 mt-4 mr-12">
 				<p>
-					Total: <strong>${grandTotal}</strong>
+					Total: <strong>{formattedAmount(grandTotal)}</strong>
 				</p>
 				<Button
 					variant="solid"
