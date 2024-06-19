@@ -44,7 +44,7 @@ function ProductDetailsPage() {
 								</div>
 							</div>
 						) : (
-							<p>{errorMessage}</p>
+							<p>{errorMessage?.message}</p>
 						)}
 					</CardBody>
 				</Card>

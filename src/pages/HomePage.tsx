@@ -1,17 +1,18 @@
-import ProductCard from "@/components/ProductCard";
 import NavBar from "@/components/Navbar";
-
-import useProducts from "@/hooks/useProducts";
-import { ProductDetails } from "@/types";
-
-import useCart from "@/hooks/useCart";
 import { Badge } from "@nextui-org/react";
 import { LuShoppingCart } from "react-icons/lu";
+import ProductCard from "@/components/ProductCard";
+import ProductSkeletonLoader from "@/components/ProductSkeletonLoader";
+
+import useCart from "@/hooks/useCart";
+import useProducts from "@/hooks/useProducts";
 import useNotification from "@/hooks/useNotification";
 
+import { ProductDetails } from "@/types";
+
 export default function Home() {
-	const { productState } = useProducts(null);
 	const context = useCart();
+	const { productState, isLoading } = useProducts(null);
 	const { showNotification } = useNotification();
 
 	function onAddProduct(product: ProductDetails, quantity: number) {
@@ -60,6 +61,10 @@ export default function Home() {
 		<>
 			<NavBar />
 			<main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 p-12">
+				{isLoading &&
+					Array.from({ length: 5 }).map((_, index) => {
+						return <ProductSkeletonLoader key={index} />;
+					})}
 				{productState.products.map((product) => renderProduct(product))}
 			</main>
 		</>
