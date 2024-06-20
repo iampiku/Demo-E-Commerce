@@ -27,13 +27,16 @@ export const NotificationProvider = ({
 		}, 5000);
 	}, []);
 
+	const onClose = () => setShowToast(false);
+
 	return (
 		<NotificationContext.Provider value={{ showNotification }}>
 			{children}
 			{notification && showToast && (
 				<NotificationToast
-					type={notification.type}
 					showToast={showToast}
+					onClose={onClose}
+					type={notification.type}
 					message={notification.message}
 				/>
 			)}
