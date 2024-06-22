@@ -19,6 +19,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { formattedAmount } from "@/utils";
 
 import { Key, useCallback } from "react";
+import { MdDelete } from "react-icons/md";
 
 interface DescriptionProps {
 	description: string;
@@ -137,6 +138,7 @@ export default function CartGrid({
 					onClick={handleCartClear}
 					className="flex justify-end"
 					disabled={!productList.length}
+					startContent={<MdDelete className="text-xl" />}
 				>
 					Clear Cart
 				</Button>

@@ -1,5 +1,5 @@
 import { Button, ButtonGroup } from "@nextui-org/react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdDelete } from "react-icons/md";
 import { FaMinus } from "react-icons/fa6";
 
 interface QuantityCounterProps {
@@ -17,8 +17,12 @@ export default function QuantityCounter({
 				<MdAdd />
 			</Button>
 			<Button isIconOnly>{count}</Button>
-			<Button isIconOnly onClick={() => onChange("decrement")}>
-				<FaMinus />
+			<Button
+				isIconOnly
+				onClick={() => onChange("decrement")}
+				color={count === 1 ? "danger" : "default"}
+			>
+				{count === 1 ? <MdDelete /> : <FaMinus />}
 			</Button>
 		</ButtonGroup>
 	);

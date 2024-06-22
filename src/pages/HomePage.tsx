@@ -51,7 +51,7 @@ export default function Home() {
 			sortBy,
 			sortOrder,
 		});
-		setProducts(sortedProducts);
+		setProducts([...sortedProducts]);
 	}
 
 	function onProductFilter(category: string) {
