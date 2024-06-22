@@ -12,10 +12,13 @@ import {
 	Button,
 	Chip,
 } from "@nextui-org/react";
-import { Key, useCallback } from "react";
 import QuantityCounter from "./QuantityCounter";
 import { LuShoppingCart } from "react-icons/lu";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+
 import { formattedAmount } from "@/utils";
+
+import { Key, useCallback } from "react";
 
 interface DescriptionProps {
 	description: string;

@@ -2,6 +2,8 @@ import NavBar from "@/components/Navbar";
 import { Badge } from "@nextui-org/react";
 import { LuShoppingCart } from "react-icons/lu";
 import ProductCard from "@/components/ProductCard";
+import SortProducts from "@/components/SortProducts";
+import FilterProducts from "@/components/FilterProducts";
 import ProductSkeletonLoader from "@/components/ProductSkeletonLoader";
 
 import useCart from "@/hooks/useCart";
@@ -10,10 +12,20 @@ import useNotification from "@/hooks/useNotification";
 
 import { ProductDetails } from "@/types";
 
+import { sortItems } from "@/utils";
+import { useEffect, useState } from "react";
+
 export default function Home() {
 	const context = useCart();
-	const { productState, isLoading } = useProducts(null);
 	const { showNotification } = useNotification();
+	const { productState, isLoading } = useProducts(null);
+
+	const [products, setProducts] = useState<ProductDetails[]>([]);
+
+	useEffect(() => {
+		setProducts(productState.products);
+		console.log("useEffect ran");
+	}, [productState.products]);
 
 	function onAddProduct(product: ProductDetails, quantity: number) {
 		if (!context) return;
@@ -29,6 +41,31 @@ export default function Home() {
 		});
 	}
 
+	function onProductSort(payload: {
+		sortBy: keyof ProductDetails;
+		sortOrder: "asc" | "desc";
+	}) {
+		const { sortBy, sortOrder } = payload;
+		const sortedProducts = sortItems<ProductDetails>({
+			arr: products,
+			sortBy,
+			sortOrder,
+		});
+		setProducts(sortedProducts);
+	}
+
+	function onProductFilter(category: string) {
+		if (category === "all products") {
+			setProducts(productState.products);
+			return;
+		}
+
+		const filteredProducts = productState.products.filter(
+			(product) => product.category === category
+		);
+		setProducts(filteredProducts);
+	}
+
 	const renderProduct = (product: ProductDetails) => {
 		if (!context)
 			return (
@@ -38,7 +75,12 @@ export default function Home() {
 					onAddProduct={onAddProduct}
 				/>
 			);
-		return context.state.cartItems.some(({ id }) => id === product.id) ? (
+
+		const isProductInCart = context.state.cartItems.some(
+			({ id }) => id === product.id
+		);
+
+		return isProductInCart ? (
 			<Badge
 				content={<LuShoppingCart className="text-base m-2" />}
 				variant="shadow"
@@ -60,12 +102,18 @@ export default function Home() {
 	return (
 		<>
 			<NavBar />
-			<main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 p-12">
-				{isLoading &&
-					Array.from({ length: 5 }).map((_, index) => {
-						return <ProductSkeletonLoader key={index} />;
-					})}
-				{productState.products.map((product) => renderProduct(product))}
+			<main className="px-12">
+				<div className="flex flex-col sm:flex-row gap-2 justify-between py-6">
+					<FilterProducts onProductFilter={onProductFilter} />
+					<SortProducts onProductSort={onProductSort} />
+				</div>
+				<main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 ">
+					{isLoading &&
+						Array.from({ length: 5 }).map((_, index) => {
+							return <ProductSkeletonLoader key={index} />;
+						})}
+					{products.map((product) => renderProduct(product))}
+				</main>
 			</main>
 		</>
 	);

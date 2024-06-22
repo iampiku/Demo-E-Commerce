@@ -83,7 +83,7 @@ export default function ProductCard({
 				</div>
 
 				<div className="flex gap-1 flex-col sm:flex-row w-full">
-					<Dropdown className="flex-grow">
+					<Dropdown>
 						<DropdownTrigger>
 							<Button variant="ghost">{productCount}</Button>
 						</DropdownTrigger>

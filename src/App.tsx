@@ -19,7 +19,7 @@ function App() {
 								Pradipta Chatterjee
 							</Link>
 						</span>{" "}
-						👨🏽‍💻 and powered by <strong>fakestoreapi</strong> API
+						👨🏽‍💻 and powered by <strong>fakestoreapi</strong>
 					</p>
 				</footer>
 			</CartProvider>
