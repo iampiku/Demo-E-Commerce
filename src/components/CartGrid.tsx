@@ -14,7 +14,6 @@ import {
 } from "@nextui-org/react";
 import QuantityCounter from "./QuantityCounter";
 import { LuShoppingCart } from "react-icons/lu";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 import { formattedAmount } from "@/utils";
 

@@ -1,6 +1,4 @@
 import NavBar from "@/components/Navbar";
-import { Badge } from "@nextui-org/react";
-import { LuShoppingCart } from "react-icons/lu";
 import ProductCard from "@/components/ProductCard";
 import SortProducts from "@/components/SortProducts";
 import FilterProducts from "@/components/FilterProducts";
@@ -66,39 +64,6 @@ export default function Home() {
 		setProducts(filteredProducts);
 	}
 
-	const renderProduct = (product: ProductDetails) => {
-		if (!context)
-			return (
-				<ProductCard
-					key={product.id}
-					productDetails={product}
-					onAddProduct={onAddProduct}
-				/>
-			);
-
-		const isProductInCart = context.state.cartItems.some(
-			({ id }) => id === product.id
-		);
-
-		return isProductInCart ? (
-			<Badge
-				content={<LuShoppingCart className="text-base m-2" />}
-				variant="shadow"
-				color="secondary"
-				className="absolute top-2 right-2"
-				key={product.id}
-			>
-				<ProductCard productDetails={product} onAddProduct={onAddProduct} />
-			</Badge>
-		) : (
-			<ProductCard
-				key={product.id}
-				productDetails={product}
-				onAddProduct={onAddProduct}
-			/>
-		);
-	};
-
 	return (
 		<>
 			<NavBar />
@@ -107,13 +72,19 @@ export default function Home() {
 					<FilterProducts onProductFilter={onProductFilter} />
 					<SortProducts onProductSort={onProductSort} />
 				</div>
-				<main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 ">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 ">
 					{isLoading &&
 						Array.from({ length: 5 }).map((_, index) => {
 							return <ProductSkeletonLoader key={index} />;
 						})}
-					{products.map((product) => renderProduct(product))}
-				</main>
+					{products.map((product) => (
+						<ProductCard
+							key={product.id}
+							productDetails={product}
+							onAddProduct={onAddProduct}
+						/>
+					))}
+				</div>
 			</main>
 		</>
 	);
