@@ -1,11 +1,21 @@
 import NavBar from "@/components/Navbar";
-import { Card, CardBody, Image, Button, Chip } from "@nextui-org/react";
+import { Link } from "react-router-dom";
+import {
+	Card,
+	CardBody,
+	Image,
+	Button,
+	Chip,
+	Spinner,
+} from "@nextui-org/react";
+import { LuShoppingCart, LuArrowBigLeft } from "react-icons/lu";
 
-import useProducts from "@/hooks/useProducts";
-import { useParams } from "react-router-dom";
-import { LuShoppingCart } from "react-icons/lu";
 import useCart from "@/hooks/useCart";
+import { useParams } from "react-router-dom";
+import useProducts from "@/hooks/useProducts";
 import useNotification from "@/hooks/useNotification";
+
+import { formattedAmount } from "@/utils";
 
 function ProductDetailsPage() {
 	const cartContext = useCart();
@@ -38,13 +48,25 @@ function ProductDetailsPage() {
 			<NavBar />
 			<Card isBlurred className="p-6 m-12">
 				<CardBody>
-					{isLoading && <span>Loading...</span>}
+					{isLoading && (
+						<div className="flex justify-center items-center min-h-[600px]">
+							<Spinner label="Loading product details..."></Spinner>
+						</div>
+					)}
 					{productState.details ? (
 						<div className="grid grid-cols-1 md:grid-cols-2">
-							<div className="mx-auto">
+							<Link to="/">
+								<Button
+									isIconOnly
+									className="mb-3 font-medium"
+									color="primary"
+									variant="shadow"
+								>
+									<LuArrowBigLeft />
+								</Button>
+							</Link>
+							<div className="mx-auto my-auto">
 								<Image
-									isZoomed
-									shadow="none"
 									width={400}
 									isLoading={isLoading}
 									src={productState.details.image}
@@ -62,17 +84,19 @@ function ProductDetailsPage() {
 									{productState.details.description}
 								</p>
 								<p className="text-base font-semibold">Price:</p>
-								<p className="text-xl">$ {productState.details.price}</p>
+								<p className="text-xl font-bold">
+									{formattedAmount(productState.details.price)}
+								</p>
 								<div className="flex flex-col md:flex-row gap-4">
 									<Button
 										color="primary"
-										variant="solid"
+										variant="shadow"
 										onClick={onAddProduct}
 										startContent={<LuShoppingCart className="text-xl" />}
 									>
 										ADD TO CART
 									</Button>
-									<Button color="default" variant="flat">
+									<Button color="default" variant="shadow">
 										BUT IT NOW
 									</Button>
 								</div>
