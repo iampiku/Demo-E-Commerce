@@ -1,5 +1,4 @@
 import NavBar from "@/components/Navbar";
-import { Link } from "react-router-dom";
 import {
 	Card,
 	CardBody,
@@ -11,7 +10,7 @@ import {
 import { LuShoppingCart, LuArrowBigLeft } from "react-icons/lu";
 
 import useCart from "@/hooks/useCart";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import useProducts from "@/hooks/useProducts";
 import useNotification from "@/hooks/useNotification";
 

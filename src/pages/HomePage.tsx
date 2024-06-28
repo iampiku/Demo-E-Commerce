@@ -11,19 +11,16 @@ import useNotification from "@/hooks/useNotification";
 import { ProductDetails } from "@/types";
 
 import { sortItems } from "@/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
 	const context = useCart();
 	const { showNotification } = useNotification();
 	const { productState, isLoading } = useProducts(null);
 
-	const [products, setProducts] = useState<ProductDetails[]>([]);
-
-	useEffect(() => {
-		setProducts(productState.products);
-		console.log("useEffect ran");
-	}, [productState.products]);
+	const [products, setProducts] = useState<ProductDetails[]>(
+		() => productState.products ?? []
+	);
 
 	function onAddProduct(product: ProductDetails, quantity: number) {
 		if (!context) return;
@@ -39,38 +36,17 @@ export default function Home() {
 		});
 	}
 
-	function onProductSort(payload: {
-		sortBy: keyof ProductDetails;
-		sortOrder: "asc" | "desc";
-	}) {
-		const { sortBy, sortOrder } = payload;
-		const sortedProducts = sortItems<ProductDetails>({
-			arr: products,
-			sortBy,
-			sortOrder,
-		});
-		setProducts([...sortedProducts]);
-	}
+	function onProductSort() {}
 
-	function onProductFilter(category: string) {
-		if (category === "all products") {
-			setProducts(productState.products);
-			return;
-		}
-
-		const filteredProducts = productState.products.filter(
-			(product) => product.category === category
-		);
-		setProducts(filteredProducts);
-	}
+	function onProductFilter() {}
 
 	return (
 		<>
 			<NavBar />
 			<main className="px-12">
 				<div className="flex flex-col sm:flex-row gap-2 justify-between py-6">
-					<FilterProducts onProductFilter={onProductFilter} />
-					<SortProducts onProductSort={onProductSort} />
+					<FilterProducts />
+					<SortProducts />
 				</div>
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 ">
 					{isLoading &&

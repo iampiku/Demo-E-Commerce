@@ -1,3 +1,4 @@
+import useQueryParams from "@/hooks/useQueryParams";
 import {
 	Dropdown,
 	DropdownTrigger,
@@ -6,15 +7,9 @@ import {
 	DropdownItem,
 } from "@nextui-org/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface FilterProductsProps {
-	onProductFilter: (category: string) => void;
-}
-
-export default function FilterProducts({
-	onProductFilter,
-}: Readonly<FilterProductsProps>) {
+export default function FilterProducts() {
 	const [categories, setCategories] = useState<
 		{
 			label: string;
@@ -27,6 +22,20 @@ export default function FilterProducts({
 		{ label: "Men's clothing", _selected: false },
 		{ label: "Women's clothing", _selected: false },
 	]);
+	const [query, setQuery] = useQueryParams("category");
+
+	useEffect(() => {
+		if (!query) {
+			setQuery("all products");
+			return;
+		}
+		setCategories((previousCategories) => {
+			return previousCategories.map((category) => ({
+				...category,
+				_selected: category.label.toLowerCase() === query,
+			}));
+		});
+	}, [query, setQuery]);
 
 	const onCategorySelection = (selectedCategory: {
 		label: string;
@@ -39,7 +48,7 @@ export default function FilterProducts({
 			}));
 		});
 
-		onProductFilter(selectedCategory.label.toLowerCase());
+		setQuery(selectedCategory.label.toLowerCase(), { replace: false });
 	};
 
 	return (

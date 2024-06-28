@@ -2,7 +2,13 @@ import { Notification } from "@/types";
 
 import { NotificationToast } from "@/components/NotificationToast";
 
-import { createContext, ReactNode, useCallback, useState } from "react";
+import {
+	useMemo,
+	useState,
+	ReactNode,
+	useCallback,
+	createContext,
+} from "react";
 
 interface NotificationContextProps {
 	showNotification: (payload: Notification) => void;
@@ -29,13 +35,18 @@ export const NotificationProvider = ({
 
 	const onClose = () => setShowToast(false);
 
+	const value: NotificationContextProps = useMemo(
+		() => ({ showNotification }),
+		[showNotification]
+	);
+
 	return (
-		<NotificationContext.Provider value={{ showNotification }}>
+		<NotificationContext.Provider value={value}>
 			{children}
 			{notification && showToast && (
 				<NotificationToast
-					showToast={showToast}
 					onClose={onClose}
+					showToast={showToast}
 					type={notification.type}
 					message={notification.message}
 				/>

@@ -8,18 +8,12 @@ import {
 	DropdownTrigger,
 } from "@nextui-org/react";
 import { FaSortAmountUp, FaSortAmountDown } from "react-icons/fa";
-import { ProductDetails } from "@/types";
+import useQueryParams from "@/hooks/useQueryParams";
 
-interface SortProductsProps {
-	onProductSort: (payload: {
-		sortBy: keyof ProductDetails;
-		sortOrder: "asc" | "desc";
-	}) => void;
-}
+export default function SortProducts() {
+	const [sortByQuery, setSortByQuery] = useQueryParams("sortBy");
+	const [sortOrderQuery, setSortOrderQuery] = useQueryParams("sortOrder");
 
-export default function SortProducts({
-	onProductSort,
-}: Readonly<SortProductsProps>) {
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 	const [sortByList, setSortByList] = useState<
 		{ label: string; _selected: boolean }[]
@@ -38,16 +32,16 @@ export default function SortProducts({
 				_selected: item.label === selectedSortBy.label,
 			}));
 		});
+		setSortByQuery(selectedSortBy.label.toLowerCase());
+		setSortOrderQuery(sortOrder);
 	};
 
-	useEffect(() => {
-		const sortBy = sortByList.find((item) => item._selected)?.label ?? null;
-		if (!sortBy) return;
-		onProductSort({
-			sortBy: sortBy.toLowerCase() as keyof ProductDetails,
-			sortOrder,
-		});
-	}, [onProductSort, sortByList, sortOrder]);
+	const onSortOrderChange = () => {
+		setSortOrder((previousSortOrder) =>
+			previousSortOrder === "asc" ? "desc" : "asc"
+		);
+		setSortOrderQuery(sortOrder);
+	};
 
 	return (
 		<div className="flex gap-3">
@@ -79,11 +73,7 @@ export default function SortProducts({
 				variant="flat"
 				color="secondary"
 				isIconOnly
-				onClick={() =>
-					setSortOrder((previousSortOrder) =>
-						previousSortOrder === "asc" ? "desc" : "asc"
-					)
-				}
+				onClick={onSortOrderChange}
 			>
 				{sortOrder === "asc" ? <FaSortAmountUp /> : <FaSortAmountDown />}
 			</Button>
