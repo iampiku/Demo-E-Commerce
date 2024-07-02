@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
 	Button,
@@ -11,8 +11,8 @@ import { FaSortAmountUp, FaSortAmountDown } from "react-icons/fa";
 import useQueryParams from "@/hooks/useQueryParams";
 
 export default function SortProducts() {
-	const [sortByQuery, setSortByQuery] = useQueryParams("sortBy");
-	const [sortOrderQuery, setSortOrderQuery] = useQueryParams("sortOrder");
+	const setSortByQuery = useQueryParams("sortBy")[1];
+	const setSortOrderQuery = useQueryParams("sortOrder")[1];
 
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 	const [sortByList, setSortByList] = useState<

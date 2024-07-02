@@ -10,17 +10,10 @@ import useNotification from "@/hooks/useNotification";
 
 import { ProductDetails } from "@/types";
 
-import { sortItems } from "@/utils";
-import { useState } from "react";
-
 export default function Home() {
 	const context = useCart();
 	const { showNotification } = useNotification();
 	const { productState, isLoading } = useProducts(null);
-
-	const [products, setProducts] = useState<ProductDetails[]>(
-		() => productState.products ?? []
-	);
 
 	function onAddProduct(product: ProductDetails, quantity: number) {
 		if (!context) return;
@@ -36,10 +29,6 @@ export default function Home() {
 		});
 	}
 
-	function onProductSort() {}
-
-	function onProductFilter() {}
-
 	return (
 		<>
 			<NavBar />
@@ -53,7 +42,7 @@ export default function Home() {
 						Array.from({ length: 5 }).map((_, index) => {
 							return <ProductSkeletonLoader key={index} />;
 						})}
-					{products.map((product) => (
+					{productState.products.map((product) => (
 						<ProductCard
 							key={product.id}
 							productDetails={product}

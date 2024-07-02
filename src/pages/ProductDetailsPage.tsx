@@ -45,34 +45,37 @@ function ProductDetailsPage() {
 	return (
 		<>
 			<NavBar />
-			<Card isBlurred className="p-6 m-12">
+			<Card isBlurred className="p-6 m-12 mx-auto max-w-[1200px]">
 				<CardBody>
+					<Link to="/">
+						<Button
+							isIconOnly
+							className="mb-3 font-medium"
+							color="primary"
+							variant="shadow"
+						>
+							<LuArrowBigLeft />
+						</Button>
+					</Link>
 					{isLoading && (
 						<div className="flex justify-center items-center min-h-[600px]">
 							<Spinner label="Loading product details..."></Spinner>
 						</div>
 					)}
 					{productState.details ? (
-						<div className="grid grid-cols-1 md:grid-cols-2">
-							<Link to="/">
-								<Button
-									isIconOnly
-									className="mb-3 font-medium"
-									color="primary"
-									variant="shadow"
-								>
-									<LuArrowBigLeft />
-								</Button>
-							</Link>
-							<div className="mx-auto my-auto">
-								<Image
-									width={400}
-									isLoading={isLoading}
-									src={productState.details.image}
-								></Image>
+						<div className="grid grid-cols-1 md:grid-cols-2 ">
+							<div className="col-span-1 mx-auto my-auto">
+								<div className="mx-auto my-auto">
+									<Image
+										isZoomed
+										width={400}
+										isLoading={isLoading}
+										src={productState.details.image}
+									></Image>
+								</div>
 							</div>
 
-							<div className="p-6 space-y-4">
+							<div className="p-6 space-y-4 col-span-1">
 								<Chip variant="shadow" color="secondary">
 									{productState.details.category.toUpperCase()}
 								</Chip>

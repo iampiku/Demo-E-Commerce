@@ -1,7 +1,4 @@
-import CartPage from "@/pages/CartPage";
 import HomePage from "@/pages/HomePage";
-import ProductDetailsPage from "@/pages/ProductDetailsPage";
-
 import { createBrowserRouter } from "react-router-dom";
 
 const routes = createBrowserRouter([
@@ -11,11 +8,17 @@ const routes = createBrowserRouter([
 	},
 	{
 		path: "product/:productId",
-		Component: ProductDetailsPage,
+		async lazy() {
+			const { default: Component } = await import("@/pages/ProductDetailsPage");
+			return { Component };
+		},
 	},
 	{
 		path: "/cart",
-		Component: CartPage,
+		async lazy() {
+			const { default: Component } = await import("@/pages/CartPage");
+			return { Component };
+		},
 	},
 ]);
 

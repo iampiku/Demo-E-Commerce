@@ -2,7 +2,8 @@ import { ProductDetails } from "@/types";
 
 import axios, { AxiosError, CanceledError } from "axios";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import useQueryParams from "./useQueryParams";
 
 interface ProductState {
 	details: ProductDetails | null;
@@ -24,9 +25,17 @@ export default function useProducts(id: null | number) {
 		code: number;
 	} | null>(null);
 
-	const API_URL = id
-		? `https://fakestoreapi.com/products/${id}`
-		: "https://fakestoreapi.com/products";
+	const filter = useQueryParams("category")[0];
+	const sortOrder = useQueryParams("sortOrder")[0];
+
+	const API_URL = useMemo(() => {
+		let url = "https://fakestoreapi.com/products";
+		if (id) return `https://fakestoreapi.com/products/${id}`;
+		if (filter && filter.toLowerCase() !== "all products")
+			url += `/category/${filter}`;
+		if (sortOrder) url += `?sort=${sortOrder}`;
+		return url;
+	}, [id, filter, sortOrder]);
 
 	useEffect(() => {
 		setIsLoading(true);
