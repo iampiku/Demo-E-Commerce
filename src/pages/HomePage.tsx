@@ -12,6 +12,7 @@ import { ProductDetails } from "@/types";
 
 export default function Home() {
 	const context = useCart();
+
 	const { showNotification } = useNotification();
 	const { productState, isLoading } = useProducts(null);
 
@@ -33,7 +34,7 @@ export default function Home() {
 		<>
 			<NavBar />
 			<main className="px-12">
-				<div className="flex flex-col sm:flex-row gap-2 justify-between py-6">
+				<div className="flex gap-2 justify-between py-6">
 					<FilterProducts />
 					<SortProducts />
 				</div>

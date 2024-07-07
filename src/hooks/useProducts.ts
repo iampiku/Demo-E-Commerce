@@ -40,6 +40,7 @@ export default function useProducts(id: null | number) {
 	useEffect(() => {
 		setIsLoading(true);
 		const controller = new AbortController();
+		setProductState({ ...initialProductState });
 
 		axios
 			.get<ProductDetails[] | ProductDetails>(API_URL)
